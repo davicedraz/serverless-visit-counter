@@ -1,0 +1,14 @@
+{
+  "name": "serverless-visit-counter",
+  "version": "1.0.0",
+  "description": "##### REST API to counts the number of visits to a website and allows a user to create an account.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Davi Cedraz",
+  "license": "ISC"
+}
