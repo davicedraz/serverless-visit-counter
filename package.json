@@ -1,14 +1,10 @@
 {
-  "name": "serverless-visit-counter",
+  "name": "aws-serverless-express-api",
   "version": "1.0.0",
-  "description": "##### REST API to counts the number of visits to a website and allows a user to create an account.",
-  "main": "index.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "description": "REST API to counts the number of visits to a website and allows a user to create an account",
   "author": "Davi Cedraz",
-  "license": "ISC"
+  "dependencies": {
+    "express": "^4.17.1",
+    "serverless-http": "^2.7.0"
+  }
 }
