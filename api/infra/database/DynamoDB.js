@@ -1,9 +1,18 @@
 ﻿const AWS = require("aws-sdk");
 const { Database } = require("./database");
+import database from "../config/database";
 
 export class DynamoDB extends Database {
   constructor() {
-    this.client = new AWS.DynamoDB.DocumentClient();
+    if (database.IS_OFFLINE === 'true') {
+      this.client = new AWS.DynamoDB.DocumentClient({
+        region: 'localhost',
+        endpoint: 'http://localhost:8000'
+      });
+    } else {
+      this.client = new AWS.DynamoDB.DocumentClient();
+    }
+
     super(this);
   }
 

@@ -4,14 +4,22 @@ service: aws-serverless-express-api
 
 frameworkVersion: '2'
 
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
 custom:
   tableName: 'users-table-${self:provider.stage}'
+  dynamodb:
+    start:
+      migrate: true
 
 provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: '20201221'
   stage: dev
+  region: us-east-1
   iam:
     role:
       statements:
@@ -27,10 +35,11 @@ provider:
             - Fn::GetAtt: [ UsersTable, Arn ]
   environment:
     USERS_TABLE: ${self:custom.tableName}
+    IS_OFFLINE: true
 
 functions:
   api:
-    app: handler.api
+    handler: handler.api
     events:
       - http:
           path: /

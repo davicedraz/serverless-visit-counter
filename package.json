@@ -3,8 +3,18 @@
   "version": "1.0.0",
   "description": "REST API to counts the number of visits to a website and allows a user to create an account",
   "author": "Davi Cedraz",
+  "scripts": {
+    "start": "./node_modules/.bin/serverless offline start --noPrependStageInUrl",
+    "debug": "export SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline -s dev"
+  },
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.17.1",
+    "serverless": "^2.43.0",
     "serverless-http": "^2.7.0"
+  },
+  "devDependencies": {
+    "serverless-dynamodb-local": "^0.2.24",
+    "serverless-offline": "^7.0.0"
   }
 }
