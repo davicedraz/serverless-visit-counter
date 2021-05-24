@@ -47,6 +47,18 @@ functions:
       - http:
           path: /{proxy+}
           method: ANY
+  incrementCounter:
+    handler: ./src/lambda/counter.incrementHit
+    events:
+      - http:
+          path: /counter/increment
+          method: patch
+  getCounter:
+    handler: ./src/lambda/counter.getVisits
+    events:
+      - http:
+          path: /counter
+          method: get
 
 resources:
   Resources:
