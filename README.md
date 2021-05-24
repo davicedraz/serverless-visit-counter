@@ -1,25 +1,44 @@
-<!--
-title: 'Serverless Framework Node Express API service backed by DynamoDB on AWS'
-description: 'This template demonstrates how to develop and deploy a simple Node Express API service backed by DynamoDB running on AWS Lambda using the traditional Serverless Framework.'
-layout: Doc
-framework: v2
-platform: AWS
-language: nodeJS
-authorLink: 'https://github.com/serverless'
-authorName: 'Serverless, inc.'
-authorAvatar: 'https://avatars1.githubusercontent.com/u/13742415?s=200&v=4'
--->
+﻿## Serverless Node Express API
 
-# Serverless Framework Node Express API on AWS
+This project it is being developed to apply serverless concepts using Node.js, the [Serverless](https://www.serverless.com/) framework and AWS platform (Lambda functions).
 
-This template demonstrates how to develop and deploy a simple Node Express API service, backed by DynamoDB database, running on AWS Lambda using the traditional Serverless Framework.
+This a simples API that communicates with the free service [CountAPI](https://countapi.xyz/). This API allows you to create simple numeric counters IaaS (Integer as a Service) and increment/decrement it. This counter will be used to store the number of hits from a website.
+
+API features:
+
+- [x] Increase the number of accesses
+- [x] Consult the number of accesses
+- [x] Create a user
+- [x] View a user's information
+- [ ] Increment the hit counter automatically when the site is visited
+- [ ] Create a new hit counter when a logged in user visits the site
 
 
-## Anatomy of the template
+### Architecture
 
-This template configures a single function, `api`, in `serverless.yml` which is responsible for handling all incoming requests thanks to configured `http` events. To learn more about `http` event configuration options, please refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/). As the events are configured in a way to accept all incoming requests, `express` framework is responsible for routing and handling requests internally. Implementation takes advantage of `serverless-http` package, which allows you to wrap existing `express` applications. To learn more about `serverless-http`, please refer to corresponding [GitHub repository](https://github.com/dougmoscrop/serverless-http). Additionally, it also handles provisioning of a DynamoDB database that is used for storing data about users. The `express` application exposes two endpoints, `POST /users` and `GET /user/{userId}`, which allow to create and retrieve users.
+This project takes advantage of [Services Pattern](https://www.serverless.com/blog/serverless-architecture-code-patterns), where a single Lambda function can handle a few (~4) jobs that are usually related via a data model or a shared infrastructure dependency. In our example app, all operations on the Users data model are performed in a single Lambda function, and multiple HTTP endpoints are created for all CRUD operations.
 
-## Usage
+Benefits of Services Pattern:
+
+- This will result in less Lambda functions that you need to manage.
+- Some separation of concerns still exists.
+- Teams can still work autonomously.
+- Faster deployments.
+- Theoretically better performance. When multiple jobs are within a Lambda function, there is a higher likelihood that Lambda function will be called more regularly, which means the Lambda will stay warm and users will run into less cold-starts.
+
+Drawbacks of Services Pattern:
+
+- Debugging gets slightly more complicated, since the Lambda function is handling multiple jobs, and has different outcomes.
+- Requires creating a router to call the right logic based on the request method or endpoint.
+- Bigger function sizes due to putting multiple operations within the same Lambda function.
+
+![Architecture](docs/images/SVC_-_v1.1.0.png)
+
+
+### Project Structure
+
+When we consider DevOps frameworks like [serverless](https://www.serverless.com/) Framework, it expects to point each route to a separate Lambda function. But this project exposes one single function, `api`, in `serverless.yml` which is responsible for handling all incoming requests thanks to configured `http` events. To learn more about `http` event configuration options, please refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/). As the events are configured in a way to accept all incoming requests, `express` framework is responsible for routing and handling requests internally. Implementation takes advantage of `serverless-http` package, which allows you to wrap existing `express` applications. To learn more about `serverless-http`, please refer to corresponding [GitHub repository](https://github.com/dougmoscrop/serverless-http). Additionally, it also handles provisioning of a DynamoDB database that is used for storing data about users. The `express` application exposes two endpoints, `POST /users` and `GET /user/{userId}`, which allow to create and retrieve users.
+
 
 ### Deployment
 
@@ -75,40 +94,6 @@ functions:
   api: aws-node-express-dynamodb-api-dev-api
 layers:
   None
-```
-
-_Note_: In current form, after deployment, your API is public and can be invoked by anyone. For production deployments, you might want to configure an authorizer. For details on how to do that, refer to [http event docs](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/). Additionally, in current configuration, DynamoDB Table will be removed when running `serverless remove`. To retain DynamoDB Table even after removal of the stack, add `DeletionPolicy: Retain` to its resource definition.
-
-### Invocation
-
-After successful deployment, you can create a new user by calling the corresponding endpoint:
-
-```bash
-curl --request POST 'https://xxxxxx.execute-api.us-east-1.amazonaws.com/dev/users' --header 'Content-Type: application/json' --data-raw '{"name": "John", "userId": "someUserId"}'
-```
-
-Which should result in the following response:
-
-```bash
-{"userId":"someUserId","name":"John"}
-```
-
-You can later retrieve the user by `userId` by calling the following endpoint:
-
-```bash
-curl https://xxxxxxx.execute-api.us-east-1.amazonaws.com/dev/users/someUserId
-```
-
-Which should result in the following response:
-
-```bash
-{"userId":"someUserId","name":"John"}
-```
-
-If you try to retrieve user that does not exist, you should receive the following response:
-
-```bash
-{"error":"Could not find user with provided \"userId\""}
 ```
 
 ### Local development
