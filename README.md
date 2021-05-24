@@ -125,6 +125,8 @@ custom:
       - dev
 ```
 
+![DynamodB](https://github.com/davicedraz/serverless-visit-counter/blob/master/docs/images/local-dynamo-db.png?raw=true)
+
 Additionally, we need to reconfigure `AWS.DynamoDB.DocumentClient` to connect to our local instance of DynamoDB. We can take advantage of `IS_OFFLINE` environment variable set by `serverless-offline` plugin and replace:
 
 ```javascript
