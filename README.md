@@ -32,7 +32,7 @@ Drawbacks of Services Pattern:
 - Requires creating a router to call the right logic based on the request method or endpoint.
 - Bigger function sizes due to putting multiple operations within the same Lambda function.
 
-![Architecture](docs/images/SVC_-_v1.1.0.png)
+![Architecture](https://github.com/davicedraz/serverless-visit-counter/blob/master/docs/images/SVC%20-%20v1.1.0.png?raw=true)
 
 
 ### Project Structure
