@@ -11,8 +11,9 @@ class User {
 
   get() {
     return {
+      id: this.id,
       name: this.name,
-      email: this.emai
+      email: this.email
     }
   }
 

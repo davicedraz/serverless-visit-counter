@@ -26,6 +26,5 @@ function yupValidation(error, req, res, next) {
 
 module.exports = (server) => {
   server.use(registryValidation);
-  server.use(authValidation);
   server.use(yupValidation);
 }
