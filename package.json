@@ -5,13 +5,17 @@
   "author": "Davi Cedraz",
   "scripts": {
     "start": "./node_modules/.bin/serverless offline start --noPrependStageInUrl",
-    "debug": "export SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline -s dev"
+    "debug": "export SLS_DEBUG=* && node --debug ./node_modules/.bin/serverless offline start --noPrependStageInUrl dev"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
+    "dynamoose": "^1.11.1",
     "express": "^4.17.1",
+    "http-status-codes": "^2.1.4",
     "serverless": "^2.43.0",
-    "serverless-http": "^2.7.0"
+    "serverless-http": "^2.7.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "serverless-dynamodb-local": "^0.2.24",
